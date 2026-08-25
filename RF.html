@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration form</title>
+    <script>
+        function check(){
+            let uid = document.getElementById("userid").value.trim();
+            let pwd = document.getElementById("passwd").value;
+            let cnfPwd = document.getElementById("cnfpasswd").value;
+            let msg = "";
+
+            if(uid.length <= 0){
+                msg += "Username is required.\n";
+            }
+            if(pwd.length <= 0){
+                msg += "Password is required.\n";
+            }
+            if(pwd.length > 0 && pwd.length < 8){
+                msg += "Password must be at least 8 characters long.\n";
+            }
+            if(cnfPwd.length <= 0){
+                msg += "Confirm password is required.\n";
+            }
+
+            if(msg.length > 0){
+                alert(msg);
+                return false;
+            }
+
+            if (pwd !== cnfPwd) {
+                alert("Passwords do not match. Please re-enter the password and try again.");
+                document.getElementById("passwd").value = "";
+                document.getElementById("cnfpasswd").value = "";
+                document.getElementById("passwd").focus();
+                return false;  
+            }
+
+            if (uid == "thevatsalgoyal" && pwd == "Vatsal_777") {
+                alert("Login successful!");
+                return true;
+            } else {
+                alert("Invalid username or password.");
+                return false;
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }   
+</style>
+</head>
+<body>
+    <form action="" method="post" onsubmit="return check();">
+        <label for="userid">Username:</label>
+        <input type="text" id="userid" name="userid" placeholder="Enter the username " required>
+        <br><br>
+        <label for="passwd">Password:</label>
+        <input type="password" id="passwd" name="passwd" placeholder="Enter the password " required>
+        <br><br>
+        <label for="cnfpasswd">Confirm Password:</label>
+        <input type="password" id="cnfpasswd" name="cnfpasswd" placeholder="Confirm the password " required>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

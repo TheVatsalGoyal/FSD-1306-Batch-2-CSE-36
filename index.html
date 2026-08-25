@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4b79a1 0%, #283e51 100%);
+            color: #333;
+            margin: 0;
+
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 650px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+            padding: 32px;
+        }
+
+        .form-container h1 {
+            margin-top: 0;
+            color: #1f3d7a;
+            text-align: center;
+        }
+
+        .field-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #c7cdd8;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-row {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button {
+            background: #1f3d7a;
+            color: #fff;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: #264a8d;
+        }
+
+        .summary {
+            margin-top: 20px;
+            background: #f2f7ff;
+            border-left: 4px solid #1f3d7a;
+            padding: 18px 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .summary p {
+            margin: 8px 0;
+        }
+
+        .error {
+            color: #b12d2d;
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Student Registration</h1>
+        <form id="registrationForm" novalidate>
+            <div class="field-group">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter full name" required>
+                    <div class="error" id="nameError"></div>
+                </div>
+                <div>
+                    <label for="rollno">Roll Number</label>
+                    <input type="number" id="rollno" name="rollno" placeholder="Enter roll number" required>
+                    <div class="error" id="rollError"></div>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div>
+                    <label for="admission">Admission Number</label>
+                    <input type="text" id="admission" name="admission" placeholder="Enter admission number" required>
+                    <div class="error" id="admissionError"></div>
+                </div>
+                <div>
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="3" max="120" placeholder="Enter age" required>
+                    <div class="error" id="ageError"></div>
+                </div>
+            </div>
+
+            <div class="field-group full">
+                <div>
+                    <label for="subject">Preferred Subject</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="english">English</option>
+                        <option value="history">History</option>
+                        <option value="computer">Computer Science</option>
+                    </select>
+                    <div class="error" id="subjectError"></div>
+                </div>
+            </div>
+
+            <div class="field-group full">
+                <div>
+                    <label>Languages Known</label>
+                    <div class="options">
+                        <label class="option-item"><input type="checkbox" name="language" value="English"> English</label>
+                        <label class="option-item"><input type="checkbox" name="language" value="Hindi"> Hindi</label>
+                        <label class="option-item"><input type="checkbox" name="language" value="French"> French</label>
+                        <label class="option-item"><input type="checkbox" name="language" value="Spanish"> Spanish</label>
+                        <label class="option-item"><input type="checkbox" name="language" value="German"> German</label>
+                    </div>
+                    <div class="error" id="languageError"></div>
+                </div>
+            </div>
+
+            <div class="field-group full">
+                <div>
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" placeholder="Enter address or notes"></textarea>
+                </div>
+            </div>
+
+            <div class="submit-row">
+                <button type="submit">Submit Registration</button>
+                <span>All fields marked required must be filled.</span>
+            </div>
+        </form>
+
+        <div class="summary" id="summaryBox">
+            <h2>Registration Summary</h2>
+            <p id="summaryText"></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const summaryBox = document.getElementById('summaryBox');
+        const summaryText = document.getElementById('summaryText');
+
+        function setError(id, message) {
+            document.getElementById(id).textContent = message;
+        }
+
+        function clearErrors() {
+            setError('nameError', '');
+            setError('rollError', '');
+            setError('admissionError', '');
+            setError('ageError', '');
+            setError('subjectError', '');
+            setError('languageError', '');
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const name = form.name.value.trim();
+            const rollno = form.rollno.value.trim();
+            const admission = form.admission.value.trim();
+            const age = parseInt(form.age.value, 10);
+            const subject = form.subject.value;
+            const address = form.address.value.trim();
+            const languages = Array.from(form.querySelectorAll('input[name="language"]:checked')).map(el => el.value);
+
+            let isValid = true;
+
+            if (!name) {
+                setError('nameError', 'Please enter your name.');
+                isValid = false;
+            }
+            if (!rollno) {
+                setError('rollError', 'Roll number is required.');
+                isValid = false;
+            }
+            if (!admission) {
+                setError('admissionError', 'Admission number is required.');
+                isValid = false;
+            }
+            if (!age || age < 3 || age > 120) {
+                setError('ageError', 'Enter a valid age between 3 and 120.');
+                isValid = false;
+            }
+            if (!subject) {
+                setError('subjectError', 'Please select a subject.');
+                isValid = false;
+            }
+            if (languages.length === 0) {
+                setError('languageError', 'Select at least one language.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                summaryBox.style.display = 'none';
+                return;
+            }
+
+            summaryText.innerHTML = `
+                <strong>Name:</strong> ${name}<br>
+                <strong>Roll No:</strong> ${rollno}<br>
+                <strong>Admission No:</strong> ${admission}<br>
+                <strong>Age:</strong> ${age}<br>
+                <strong>Subject:</strong> ${subject}<br>
+                <strong>Languages:</strong> ${languages.join(', ')}<br>
+                ${address ? `<strong>Address:</strong> ${address}<br>` : ''}
+            `;
+            summaryBox.style.display = 'block';
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    </script>
+</body>
+</html> 
